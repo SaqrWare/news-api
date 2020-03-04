@@ -17,14 +17,13 @@ export function list({title, date}, {sort = "date", order = "asc"}) {
   // Parse formatted date
   if (date) {
     const dateMoment = moment(date, "YYYY-MM-DD");
-    console.log(dateMoment.format());
     query.date = {
       $gte: dateMoment.toDate(),
       $lte: moment(dateMoment).endOf('day').toDate()
     }
   }
 
-  return Post.find(query, {_id: 1, title: 1, description: 1, date: 1})
+  return Post.find(query, {_id: 1, title: 1, description: 1, text: 1, date: 1})
     .sort(querySort)
     .exec();
 }
@@ -43,9 +42,9 @@ export function create(postJSON) {
 
 export async function update(id, postJSON) {
   await Post.updateOne({_id: id}, {$set: postJSON}).exec();
-  return getOne(id);
+  return await getOne(id);
 }
 
 export function remove(id) {
-  return Post.remove({_id: id}).exec();
+  return Post.deleteOne({_id: id}).exec();
 }

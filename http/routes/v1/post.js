@@ -36,7 +36,7 @@ router.post("/", validateRequiredFields, validateTitleNotUsed, async (req, res, 
   }
 });
 
-router.put("/:id", validatePostFound, async (req, res, next) => {
+router.put("/:id", validatePostFound, validateTitleNotUsed, async (req, res, next) => {
   try {
     const {title, description, text} = req.body;
 
